@@ -16,6 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private String[] allowedOrigins= {
     		"http://localhost:4200",
     		"http://localhost:3000",
+    		"https://testingpruebs-dllxsasu.vercel.app"
     };
 
     @Override

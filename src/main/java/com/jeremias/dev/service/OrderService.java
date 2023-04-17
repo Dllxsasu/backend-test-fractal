@@ -56,7 +56,7 @@ public class OrderService {
 
 	    // Delete
 	    detailsO.removeIf(detail -> request.getDetails().stream()
-	            .anyMatch(item -> item.getIdStatus()==-1 && item.getId().equals(detail.getProductId())));
+	            .anyMatch(item -> item.getIdStatus()==-1 && item.getIdDetail().equals(detail.getId())));
 
 
 		// add
