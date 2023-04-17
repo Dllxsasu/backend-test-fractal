@@ -81,24 +81,25 @@ public class OrderService {
 		objU.setStatus( Enum.valueOf( OrderStatus.class, request.getStatus() ) );
 		objU.setDetails(detailsO);
 		objU.setTotal(total);
-
+//
 		return repo.save(objU);
 	}
 
 	
 
-	private List<OrderDetail> updateDetail(List<OrderDetail> listDetail, OrderDetailDto item) {
+	private void updateDetail(List<OrderDetail> listDetail, OrderDetailDto item) {
 
-		return listDetail.stream().map(detail -> {
-			if (detail.getProductId().equals(item.getId())) {
-
+var x=	 listDetail.stream().map(detail -> {
+			if (detail.getId().equals(item.getIdDetail())) {
+				detail.setId(item.getId());
+				detail.setProductId(item.getId());
 				detail.setTotalPrice(detail.getPrice() * item.getQuantity()); // actualizar el precio total del detalle de
 																			// orden
 				detail.setQty(item.getQuantity());
 			}
 			return detail;
 		}).collect(Collectors.toList());
-
+var t = x;
 	}
 
 	public List<Order> getAll() {
