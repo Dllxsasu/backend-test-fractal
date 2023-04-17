@@ -23,6 +23,6 @@ public class OrderDto {
 	private String status;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private Date date;
-	private Double total;	
+	private double total;	
 	List<OrderDetailDto> details;
 }

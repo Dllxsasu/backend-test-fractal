@@ -16,7 +16,7 @@ public interface ProductMapper {
 	public Product toEntity(ProductDto dto, String id);
 
 	
+
 	@Mapping(target = "id", source = "obj.id")
-	@Mapping(target = "status", ignore = true)
 	public ProductDto toDto(Product obj);
 }

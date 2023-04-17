@@ -12,6 +12,7 @@ import com.jeremias.dev.exceptions.ResourceNotFoundException;
 import com.jeremias.dev.mappers.OrderMapper;
 import com.jeremias.dev.models.Order;
 import com.jeremias.dev.models.OrderDetail;
+import com.jeremias.dev.models.OrderStatus;
 import com.jeremias.dev.models.Product;
 import com.jeremias.dev.repository.OrderRepository;
 
@@ -27,12 +28,13 @@ public class OrderService {
 	public Order create(OrderDto request) {
 		final String uuid = UUID.randomUUID().toString();
 		List<OrderDetail> details = request.getDetails().stream().map(item -> {
-			Product product = productService.getById(item.getProductId());
+			Product product = productService.getById(item.getId());
 			OrderDetail orderDetail = new OrderDetail();
-			orderDetail.setProductId(item.getProductId());
+			orderDetail.setId(UUID.randomUUID().toString());
+			orderDetail.setProductId(item.getId());
 			orderDetail.setPrice(product.getPrice());
-			orderDetail.setTotalPrice(product.getPrice() * item.getQty());
-			orderDetail.setQty(item.getQty());
+			orderDetail.setTotalPrice(product.getPrice() * item.getQuantity());
+			orderDetail.setQty(item.getQuantity());
 			return orderDetail;
 
 		}).collect(Collectors.toList());
@@ -54,17 +56,18 @@ public class OrderService {
 
 	    // Delete
 	    detailsO.removeIf(detail -> request.getDetails().stream()
-	            .anyMatch(item -> !item.isActive() && item.getProductId().equals(detail.getProductId())));
+	            .anyMatch(item -> item.getIdStatus()==-1 && item.getId().equals(detail.getProductId())));
 
 
 		// add
-		List<OrderDetail> detailsNew = request.getDetails().stream().filter(item -> item.is_new() == true).map(item -> {
-			Product product = productService.getById(item.getProductId());
+		List<OrderDetail> detailsNew = request.getDetails().stream().filter(item -> item.getIdStatus() == 0).map(item -> {
+			Product product = productService.getById(item.getId());
 			OrderDetail orderDetail = new OrderDetail();
-			orderDetail.setProductId(item.getProductId());
+			orderDetail.setId(UUID.randomUUID().toString());
+			orderDetail.setProductId(item.getId());
 			orderDetail.setPrice(product.getPrice());
-			orderDetail.setTotalPrice(product.getPrice() * item.getQty());
-			orderDetail.setQty(item.getQty());
+			orderDetail.setTotalPrice(product.getPrice() * item.getQuantity());
+			orderDetail.setQty(item.getQuantity());
 			return orderDetail;
 
 		}).collect(Collectors.toList());
@@ -72,10 +75,10 @@ public class OrderService {
 
 		// Update
 
-		request.getDetails().stream().filter(item -> item.isUpdate()).forEach(item -> updateDetail(detailsO, item));
+		request.getDetails().stream().filter(item -> item.getIdStatus()==2).forEach(item -> updateDetail(detailsO, item));
 
 		double total = detailsO.stream().mapToDouble(OrderDetail::getTotalPrice).sum();
-
+		objU.setStatus( Enum.valueOf( OrderStatus.class, request.getStatus() ) );
 		objU.setDetails(detailsO);
 		objU.setTotal(total);
 
@@ -87,11 +90,11 @@ public class OrderService {
 	private List<OrderDetail> updateDetail(List<OrderDetail> listDetail, OrderDetailDto item) {
 
 		return listDetail.stream().map(detail -> {
-			if (detail.getProductId().equals(item.getProductId())) {
+			if (detail.getProductId().equals(item.getId())) {
 
-				detail.setTotalPrice(detail.getPrice() * item.getQty()); // actualizar el precio total del detalle de
+				detail.setTotalPrice(detail.getPrice() * item.getQuantity()); // actualizar el precio total del detalle de
 																			// orden
-				detail.setQty(item.getQty());
+				detail.setQty(item.getQuantity());
 			}
 			return detail;
 		}).collect(Collectors.toList());

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetail {
+	private String id;
 	private String ProductId;
     private Long qty;
     private Double price;

@@ -3,7 +3,6 @@ package com.jeremias.dev.controllers;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,7 @@ public class ProductController {
 		return new ResponseEntity<>(mapper.toDto(service.getById(id)), HttpStatus.OK);
 	}
 
-	@DeleteMapping()
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") String id) {
 		service.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);

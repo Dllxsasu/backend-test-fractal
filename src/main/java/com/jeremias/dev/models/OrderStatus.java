@@ -1,5 +1,5 @@
 package com.jeremias.dev.models;
 
 public enum OrderStatus {
-	PENDING,INPROGRESS,COMPLETE,DELETE;
+	PENDING,PROGRESS,COMPLETE,INPROGRESS;
 }

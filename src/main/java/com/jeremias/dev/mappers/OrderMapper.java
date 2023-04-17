@@ -11,6 +11,7 @@ import com.jeremias.dev.dto.request.OrderDetailDto;
 import com.jeremias.dev.dto.request.OrderDto;
 import com.jeremias.dev.models.Order;
 import com.jeremias.dev.models.OrderDetail;
+import com.jeremias.dev.models.Product;
 import com.jeremias.dev.service.ProductService;
 
 @Mapper(componentModel = "spring")
@@ -35,10 +36,14 @@ public abstract class OrderMapper {
         
         List<OrderDetailDto> orderDetailsDto = obj.getDetails().stream().map(orderDetail -> {
             OrderDetailDto orderDetailDto = new OrderDetailDto();
-            orderDetailDto.setProductId(orderDetail.getProductId());
-            orderDetailDto.setQty(orderDetail.getQty());
+            Product prod =productService.getById(orderDetail.getProductId());
+            orderDetailDto.setId  (orderDetail.getProductId());
+            orderDetailDto.setIdDetail(orderDetail.getId());
+            orderDetailDto.setQuantity(orderDetail.getQty());
             orderDetailDto.setPrice(orderDetail.getPrice() );
-            orderDetailDto.setProduct(productService.getById(orderDetail.getProductId()));
+         //   orderDetailDto.setProduct(productService.getById(orderDetail.getProductId()));
+            orderDetailDto.setName( prod.getName());
+            orderDetailDto.setTotalPrice(orderDetail.getTotalPrice() );
             return orderDetailDto;
         }).collect(Collectors.toList());
 

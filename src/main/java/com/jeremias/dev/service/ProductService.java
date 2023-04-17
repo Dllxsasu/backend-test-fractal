@@ -29,8 +29,7 @@ public class ProductService {
 	}
 
 	public Product update(String id, ProductDto obj) {
-		Product objU = repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("no se encontro el repuesto con el id" + id));
+		Product objU = getById(id);
 		objU.setName(obj.getName());
 		objU.setPrice(obj.getPrice());
 		
@@ -43,6 +42,6 @@ public class ProductService {
 
 	public Product getById(String id) {
 		return repo.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("no se encontro el repuesto con el id" + id));
+				.orElseThrow(() -> new ResourceNotFoundException("The product with the id was not found, id:" + id));
 	}
 }

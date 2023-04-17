@@ -6,11 +6,16 @@ import lombok.Data;
 
 @Data
 public class OrderDetailDto {
-	String productId;
-	Product product;
-	long Qty;
+	String id;
+	String idDetail;
+	String name;
+
+	long quantity;
 	double price;
-	boolean active;
-	boolean _new;
-	boolean update;
+	double totalPrice;
+	int idStatus;
+	
+	public OrderDetailDto(){
+	}
+	
 }
