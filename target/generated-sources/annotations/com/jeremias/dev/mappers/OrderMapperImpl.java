@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-04-17T01:57:54-0500",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-04-17T09:46:18-0500",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.300.v20221108-0856, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class OrderMapperImpl extends OrderMapper {
@@ -31,10 +31,10 @@ public class OrderMapperImpl extends OrderMapper {
         Order order = new Order( id1 );
 
         if ( dto != null ) {
+            order.setDate( dto.getDate() );
             if ( dto.getStatus() != null ) {
                 order.setStatus( Enum.valueOf( OrderStatus.class, dto.getStatus() ) );
             }
-            order.setDate( dto.getDate() );
             order.setTotal( dto.getTotal() );
         }
         if ( details != null ) {
